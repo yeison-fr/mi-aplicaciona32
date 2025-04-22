@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="text-align:center;">
+        <img src="a 32 imagen.png" class="img">
+        <br>
+        <h4>Nombre de usuario</h4>
+        <input type="text" placeholder="Ingrese su nombre de usuario">
+        <br>
+        <h4>Contraseña</h4>
+        <input type="password" placeholder="Ingrese su contraseña">
+        <br>
+        <li class="nav-menu-item"><a href="#" class="nav-menu-link nav-link button-6">Iniciar sesión</a></li>
+        <li class="nav-menu-item"><a href="#" class="nav-menu-link nav-link button-7">Salir</a></li>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+          e.preventDefault();
+    
+          const nombre = document.getElementById('usuario').value;
+          const contraseña = document.getElementById('clave').value;
+    
+          fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, contraseña })
+          })
+            .then(res => res.json())
+            .then(data => {
+              document.getElementById('mensaje').textContent = data.mensaje;
+              if (data.usuario) {
+                // Aquí puedes redirigir o mostrar contenido protegido
+                alert(`Bienvenido, ${data.usuario.nombre}`);
+              }
+            })
+            .catch(err => {
+              document.getElementById('mensaje').textContent = 'Error al conectar con el servidor';
+              console.error(err);
+            });
+        });
+      </script>
+    
+</body>
+</html>
